@@ -1,6 +1,6 @@
 import os
 def Articles():
-    os.chdir("articles")
+    os.chdir("static")
     dirlist = os.listdir()
     articles = []
     for i in range(len(dirlist)):

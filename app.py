@@ -1,16 +1,14 @@
 from flask import Flask, render_template, request, flash, url_for
-from data import Articles
 import os
 from werkzeug.utils import secure_filename
 
-UPLOAD_FOLDER = os.getcwd()+'/articles'
+UPLOAD_FOLDER = os.getcwd()+'/static'
 ALLOWED_EXTENSIONS = {'txt'}
 
 app = Flask(__name__)
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-Articles = Articles()
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -18,6 +16,8 @@ def allowed_file(filename):
 
 @app.route('/')
 def index():
+    from data import Articles
+    Articles = Articles()
     return render_template('index.html', articles=Articles)
 
 @app.route('/upload', methods=['GET','POST'])
@@ -41,11 +41,13 @@ def upload():
 
 @app.route('/articles/<int:id>/')
 def articles(id):
-    text = open("articles/"+Articles[id-1].get("title",""), 'r+')
+    from data import Articles
+    Articles = Articles()
+    text = open("static/"+Articles[id-1].get("title",""), 'r+')
     content = text.read()
     text.close()
     return render_template('content.html', text=content,title=Articles[id-1].get("title",""))
 
 if __name__ == '__main__':
-    app.secret_key = 'super secret key'
+    app.secret_key = 'AVB#$%^GGDHGV'
     app.run()
